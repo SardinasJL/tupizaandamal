@@ -13,7 +13,7 @@ class StateTest extends TestCase
     {
         return User::where("email", "admin@admin.com")->first();
     }
-    
+
     public function test_can_see_states()
     {
         $user = $this->puedo_autenticarme();
@@ -21,8 +21,4 @@ class StateTest extends TestCase
         $response = $this->get("/states");
         $response->assertStatus(200);
     }
-
-
-
-
 }

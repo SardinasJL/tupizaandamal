@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Failure;
 use App\Models\State;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class FailureController extends Controller
@@ -132,5 +133,15 @@ class FailureController extends Controller
             unlink($archivoAEliminar);
         $failure->delete();
         return redirect()->route("failures.index")->with(["message" => "Registro eliminado exitosamente"]);
+    }
+
+    public function report()
+    {
+        $failures = Failure::all();
+        //return view("failure_report", ["failures" => $failures]);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView("failure_report", ["failures"=>$failures]);
+        $pdf->setPaper("letter", "portrait")->setWarnings(false);
+        return $pdf->stream();
     }
 }

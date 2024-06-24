@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\State;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class StateController extends Controller
 {
@@ -87,5 +88,13 @@ class StateController extends Controller
     {
         $state->delete();
         return redirect()->route("states.index")->with(["message" => "Estado eliminado exitosamente"]);
+    }
+
+    public function crearResumenVenta(Request $request)
+    {
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadView("unavista", ["datos" => datos::all()]);
+        $pdf->setPaper("letter", "landscape")->setWarnings(false);
+        return $pdf->stream();
     }
 }

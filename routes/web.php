@@ -23,7 +23,7 @@ Auth::routes(["register" => false, "reset" => false]);
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource("failures", "App\Http\Controllers\FailureController")->only("index");
-
+Route::get("/failures/report", "App\Http\Controllers\FailureController@report")->name("failures.report");//funciona muy bien!
 Route::group(["middleware" => "auth"], function () {
     Route::resource("states", "App\Http\Controllers\StateController");
     Route::resource("failures", "App\Http\Controllers\FailureController")->except("index");
@@ -34,3 +34,6 @@ Route::group(["middleware" => "auth"], function () {
     Route::get("roles/{role}/permissions", "App\Http\Controllers\RolePermissionController@edit")->name("roles.permissions.edit");
     Route::put("roles/{role}/permissions", "App\Http\Controllers\RolePermissionController@update")->name("roles.permissions.update");
 });
+
+//Si esta ruta va al último, no funciona:
+//Route::get("/failures/report", "App\Http\Controllers\FailureController@report")->name("failures.report");
